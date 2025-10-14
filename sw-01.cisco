@@ -43,3 +43,4 @@ enable
         ip ssh authentication-retries 2
         end
     copy running-config startup-config
+show running-config
