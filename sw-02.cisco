@@ -1,0 +1,46 @@
+!Entrar no modo Exec Privilegiado
+enable
+    clock set 20:20:00 10 October 2025
+    configure terminal
+        hostname sw-02
+        service password-encryption
+        service timestamps log datetime msec
+        logging buffered 4096
+        no ip domain-lookup
+        banner motd #Robson Vaamonde LGPD#
+        enable secret 123@senac
+        username senac secret 123@senac
+        username tatuape password 123@senac 
+        username admin privilege 15 secret 123@senac 
+        no cdp run
+        no lldp run 
+        !Configuração da Line Console
+        line console 0
+            login local
+            password 123@senac
+            logging synchronous
+            exec-timeout 5 30
+            exit
+        !Configuração da Line VTY
+        line vty 0 4
+            login local
+            password 123@senac 
+            exec-timeout 5 30
+            transport input ssh
+            logging synchronous
+            exit
+        !Configuração do SVI
+        ip default-gateway 192.168.1.254
+        interface vlan 1
+            description Interface de SVI
+            ip address 192.168.1.251 255.255.255.0
+            no shutdown
+            exit
+        !Configuração do SSH
+        ip domain-name senac.br
+        crypto key generate rsa general-keys modulus 1024
+        ip ssh version 2
+        ip ssh time-out 60
+        ip ssh authentication-retries 2
+        end
+    write
