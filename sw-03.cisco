@@ -1,13 +1,10 @@
 !Entrar no modo Exec Privilegiado
 enable
-    clock set 20:20:00 15 October 2025
+    clock set 19:20:00 17 October 2025
     configure terminal
-        hostname rt-01
+        hostname sw-03
         service password-encryption
-        security passwords min-length 8
-        login block-for 120 attempts 2 within 60
         service timestamps log datetime msec
-        service timestamps debug datetime msec
         logging buffered 4096
         no ip domain-lookup
         banner motd #Robson Vaamonde LGPD#
@@ -17,13 +14,14 @@ enable
         username admin privilege 15 secret 123@senac 
         no cdp run
         no lldp run 
+        !Configuração da Line Console
         line console 0
             login local
             password 123@senac
             logging synchronous
             exec-timeout 5 30
             exit
-        !Configurando a Line VTY
+        !Configuração da Line VTY
         line vty 0 4
             login local
             password 123@senac 
@@ -31,23 +29,18 @@ enable
             transport input ssh
             logging synchronous
             exit
+        !Configuração do SVI
+        ip default-gateway 172.16.100.254
+        interface vlan 1
+            description Interface de SVI
+            ip address 172.16.100.251 255.255.255.0
+            no shutdown
+            exit
         !Configuração do SSH
         ip domain-name senac.br
         crypto key generate rsa general-keys modulus 1024
         ip ssh version 2
         ip ssh time-out 60
         ip ssh authentication-retries 2
-        !Configuração Interface LAN
-        interface gigabitEthernet 0/0
-            description Interface de Gateway da LAN
-            ip address 192.168.1.254 255.255.255.0
-            no shutdown
-        !Configuração Interface WAN
-        interface gigabitEthernet 0/0/0
-            description Interface de WAN SPO para RJO
-            ip address 200.200.200.1 255.255.255.252
-            exit
-        !Configuração da Rota Padrão
-        ip route 0.0.0.0 0.0.0.0 200.200.200.202
         end
-    copy running-config startup-config
+    write

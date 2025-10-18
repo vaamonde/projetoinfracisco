@@ -1,8 +1,8 @@
 !Entrar no modo Exec Privilegiado
 enable
-    clock set 20:20:00 15 October 2025
+    clock set 19:20:00 17 October 2025
     configure terminal
-        hostname rt-01
+        hostname rt-02
         service password-encryption
         security passwords min-length 8
         login block-for 120 attempts 2 within 60
@@ -17,6 +17,7 @@ enable
         username admin privilege 15 secret 123@senac 
         no cdp run
         no lldp run 
+        !Configurando a Line Console
         line console 0
             login local
             password 123@senac
@@ -40,14 +41,15 @@ enable
         !Configuração Interface LAN
         interface gigabitEthernet 0/0
             description Interface de Gateway da LAN
-            ip address 192.168.1.254 255.255.255.0
+            ip address 172.16.100.254 255.255.255.0
             no shutdown
+            exit
         !Configuração Interface WAN
         interface gigabitEthernet 0/0/0
             description Interface de WAN SPO para RJO
-            ip address 200.200.200.1 255.255.255.252
+            ip address 200.200.200.2 255.255.255.252
             exit
         !Configuração da Rota Padrão
-        ip route 0.0.0.0 0.0.0.0 200.200.200.202
+        ip route 0.0.0.0 0.0.0.0 200.200.200.201
         end
-    copy running-config startup-config
+    write
