@@ -1,0 +1,110 @@
+!
+version 15.0
+service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname sw-02
+!
+enable secret
+!
+!
+!
+ip ssh version 2
+ip ssh authentication-retries 2
+ip ssh time-out 60
+no ip domain-lookup
+ip domain-name senac.br
+!
+username admin secret
+username senac secret
+username tatuape privilege 1 password
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ description Interface de SVI
+ ip address 192.168.1.251 255.255.255.0
+!
+ip default-gateway 192.168.1.254
+!
+no cdp run
+!
+banner motd ^CRobson Vaamonde LGPD^C
+!
+!
+!
+line con 0
+ password
+ logging synchronous
+ login local
+ exec-timeout 5 30
+!
+line vty 0 4
+ exec-timeout 5 30
+ password
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+!
+!
+end

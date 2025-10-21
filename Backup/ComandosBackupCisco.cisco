@@ -1,0 +1,23 @@
+!Backup da Memória RAM para a NVRAM
+copy running-config startup-config
+
+!Backup da Memória RAM para FLASH (HD)
+copy running-config flash:
+
+!Backup da Memória RAM para Server Remoto
+copy running-config tftp
+
+!Backup da Memória RAM para Arquivo Texto
+show running-config
+
+!Baixando as atualizações do Repositório Remoto
+git pull
+
+!Adicionando as mundanças dos arquivos do Repositório Local
+git add .
+
+!Confirmando as mudanças dos arquivos do Repositório Local
+git commit -m "Atualização"
+
+!Enviando as mudanças para o Repositório Remoto
+git push
